@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now — Anubhav Singh</title>
+  <meta name="description" content="What Anubhav Singh is currently building, learning, and focusing on right now." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="../" class="brand" id="nav-brand">@anusinghg</a>
+      <nav class="nav-links">
+        <a href="../#projects">Projects</a>
+        <a href="../#skills">Stack</a>
+        <a href="../blog/">Blog</a>
+        <a href="./" class="active">/now</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
+          Theme
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="article-view">
+      <a href="../" class="back-link">← Back to home</a>
+      <header class="article-header">
+        <div class="blog-meta">
+          <span id="now-updated"></span>
+        </div>
+        <h1>/now</h1>
+        <p class="hero-role" id="now-intro"></p>
+      </header>
+      <div class="article-body" id="now-body"></div>
+    </article>
+  </main>
+
+  <footer class="container site-footer">
+    <span id="footer-copy"></span>
+    <span><a href="../" class="section-link">← Back to home</a></span>
+  </footer>
+
+  <script src="../config.js"></script>
+  <script>
+    (function () {
+      const cfg = window.PORTFOLIO_CONFIG || {};
+      if (cfg.handle) {
+        document.getElementById('nav-brand').textContent = cfg.handle;
+      }
+      document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${cfg.name || ''}`;
+
+      const now = cfg.now || {};
+      if (now.updatedAt) {
+        document.getElementById('now-updated').textContent = `Last updated: ${now.updatedAt}`;
+      }
+      if (now.intro) {
+        document.getElementById('now-intro').textContent = now.intro;
+      }
+
+      const body = document.getElementById('now-body');
+      (now.sections || []).forEach((sec) => {
+        const h3 = document.createElement('h3');
+        h3.textContent = sec.heading;
+        body.appendChild(h3);
+
+        const ul = document.createElement('ul');
+        (sec.items || []).forEach((item) => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          ul.appendChild(li);
+        });
+        body.appendChild(ul);
+      });
+
+      const toggleBtn = document.getElementById('theme-toggle');
+      const updateToggleLabel = () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        toggleBtn.textContent = current === 'dark' ? '☀ Light' : '☾ Dark';
+      };
+      updateToggleLabel();
+
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleLabel();
+      });
+    })();
+  </script>
+</body>
+</html>

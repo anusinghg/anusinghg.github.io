@@ -2,7 +2,8 @@
  * ============================================================================
  * PERSONAL LANDING PAGE CONFIGURATION (config.js)
  * ============================================================================
- * Edit the values in this file to customize your GitHub Pages website.
+ * Edit the values in this file to customize your GitHub Pages website,
+ * including your homepage, /blog endpoint, and /now endpoint.
  * No build step is required—just save and refresh (or push to GitHub).
  */
 
@@ -121,7 +122,82 @@ window.PORTFOLIO_CONFIG = {
   ],
 
   // --------------------------------------------------------------------------
-  // 5. TECH STACK & SKILLS
+  // 5. BLOG POSTS (Served at /blog and /blog/?post=<slug>)
+  // --------------------------------------------------------------------------
+  posts: [
+    {
+      slug: "catching-doc-rot-with-google-adk-and-ast",
+      title: "Catching Semantic Doc-Rot with Google ADK and Python AST",
+      date: "2026-10-24",
+      readingTime: "4 min read",
+      tags: ["AI Agents", "Google ADK", "Python AST", "Guardrails"],
+      summary:
+        "Why regex linters fail to catch outdated README claims—and how combining AST indexing with Gemini and deterministic citation guardrails solves it.",
+      // Write your post body using clean HTML or paragraphs below:
+      content: `
+        <p>Every engineering team has been burned by <strong>doc-rot</strong>—where a repository's <code>README.md</code> promises that an API retries 3 times with exponential backoff, or uses a <code>CACHE_TTL_SECONDS=300</code> environment variable, when in reality a developer changed the code months ago.</p>
+        <h3>Why Static Linters Aren't Enough</h3>
+        <p>Traditional linters and regex scripts can't catch semantic drift because documentation claims are written in natural-language prose while the ground truth lives in Abstract Syntax Tree (AST) control flow and uncommitted Git diffs.</p>
+        <h3>Combining AST Indexing with Google ADK</h3>
+        <p>To solve this without blowing up token limits on 100+ file repositories, <strong>Doc Truth Verifier</strong> uses a two-stage pipeline:</p>
+        <ul>
+          <li><strong>Smart Claim-Targeted AST Index:</strong> Parses Python symbols, constants, CLI flags, and decorators across the repository and ranks files against extracted README claims.</li>
+          <li><strong>Deterministic Output Guardrails:</strong> Every verdict (<code>VERIFIED</code>, <code>CONTRADICTED</code>, or <code>UNVERIFIED</code>) must cite exact file and line numbers verified against the actual source tree.</li>
+        </ul>
+        <pre><code>CLM-001  Upstream API retried up to 3 times w/ backoff  -> CONTRADICTED (app.py:47-57)
+CLM-006  CACHE_TTL_SECONDS env var (default: 300)       -> CONTRADICTED (app.py:17)</code></pre>
+        <p>By pairing LLM semantic reasoning with deterministic AST and citation verification, we get an autonomous auditor that teams can actually trust in CI.</p>
+      `
+    },
+    {
+      slug: "designing-reliable-local-cloud-llm-failovers",
+      title: "Designing Reliable Cloud-to-Local LLM Failovers (Stub)",
+      date: "2026-10-10",
+      readingTime: "3 min read",
+      tags: ["Architecture", "Gemini", "Ollama", "Reliability"],
+      summary:
+        "TODO: Replace with your own blog post. A practical guide to keeping agent workflows resilient when API rate limits or network drops happen.",
+      content: `
+        <p>TODO: Replace this stub content in <code>config.js</code> with your own post! You can add as many posts as you want to the <code>posts</code> array, or set <code>externalUrl: "https://..."</code> on any post to link directly to Medium, Dev.to, or Substack.</p>
+        <h3>How to Add a New Blog Post</h3>
+        <p>Open <code>config.js</code>, add a new object to <code>posts</code> with a unique <code>slug</code>, <code>title</code>, <code>date</code>, <code>summary</code>, and <code>content</code>, then commit and push.</p>
+      `
+    }
+  ],
+
+  // --------------------------------------------------------------------------
+  // 6. /NOW PAGE (Served at /now — what you're focused on right now)
+  // --------------------------------------------------------------------------
+  now: {
+    updatedAt: "October 2026",
+    intro: "A snapshot of what I'm currently building, learning, and exploring (inspired by nownownow.com).",
+    sections: [
+      {
+        heading: "Building",
+        items: [
+          "Developing autonomous code & documentation verification agents using Google ADK and Gemini.",
+          "Refining evaluation harnesses and deterministic guardrails for developer tools."
+        ]
+      },
+      {
+        heading: "Learning & Exploring",
+        items: [
+          "Multi-agent orchestration patterns and low-latency local model failovers with Ollama.",
+          "Distributed systems reliability and cloud-native observability."
+        ]
+      },
+      {
+        heading: "Reading / Community",
+        items: [
+          "Participating in GDG Cloud Bengaluru — Road to DevFest 2026 (FORK. BUILD. MERGE.).",
+          "TODO: Add books, papers, or side-projects you're currently enjoying."
+        ]
+      }
+    ]
+  },
+
+  // --------------------------------------------------------------------------
+  // 7. TECH STACK & SKILLS
   // --------------------------------------------------------------------------
   skills: [
     {
@@ -143,7 +219,7 @@ window.PORTFOLIO_CONFIG = {
   ],
 
   // --------------------------------------------------------------------------
-  // 6. EXPERIENCE / HIGHLIGHTS (Optional — leave array empty [] to hide section)
+  // 8. EXPERIENCE / HIGHLIGHTS (Optional — leave array empty [] to hide section)
   // --------------------------------------------------------------------------
   experience: [
     {

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Anubhav Singh</title>
+  <meta name="description" content="Technical blog and engineering notes by Anubhav Singh." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="../" class="brand" id="nav-brand">@anusinghg</a>
+      <nav class="nav-links">
+        <a href="../#projects">Projects</a>
+        <a href="../#skills">Stack</a>
+        <a href="./" class="active">Blog</a>
+        <a href="../now/">/now</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
+          Theme
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Blog Index View (/blog/) -->
+    <section class="hero" id="blog-index-view">
+      <h1>Writing &amp; Notes</h1>
+      <p class="hero-role" style="margin-bottom: 32px;">
+        Thoughts on autonomous AI agents, static analysis, developer tooling, and distributed systems.
+      </p>
+      <div class="blog-list" id="blog-list"></div>
+    </section>
+
+    <!-- Single Blog Post View (/blog/?post=<slug>) -->
+    <article class="article-view" id="blog-post-view" hidden>
+      <a href="./" class="back-link">← All posts</a>
+      <header class="article-header">
+        <div class="blog-meta" id="post-meta"></div>
+        <h1 id="post-title"></h1>
+        <div class="tag-list" id="post-tags"></div>
+      </header>
+      <div class="article-body" id="post-body"></div>
+    </article>
+  </main>
+
+  <footer class="container site-footer">
+    <span id="footer-copy"></span>
+    <span><a href="../" class="section-link">← Back to home</a></span>
+  </footer>
+
+  <script src="../config.js"></script>
+  <script>
+    (function () {
+      const cfg = window.PORTFOLIO_CONFIG || {};
+      if (cfg.handle) {
+        document.getElementById('nav-brand').textContent = cfg.handle;
+      }
+      document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${cfg.name || ''}`;
+
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('post');
+      const posts = cfg.posts || [];
+
+      const indexView = document.getElementById('blog-index-view');
+      const postView = document.getElementById('blog-post-view');
+
+      if (slug) {
+        const post = posts.find((p) => p.slug === slug);
+        if (post) {
+          indexView.hidden = true;
+          postView.hidden = false;
+          document.title = `${post.title} — ${cfg.name || 'Blog'}`;
+          document.getElementById('post-meta').innerHTML = `<span>${post.date}</span><span>${post.readingTime || ''}</span>`;
+          document.getElementById('post-title').textContent = post.title;
+          document.getElementById('post-tags').innerHTML = (post.tags || [])
+            .map((t) => `<span class="tag">${t}</span>`)
+            .join('');
+          document.getElementById('post-body').innerHTML = post.content || `<p>${post.summary || ''}</p>`;
+        }
+      }
+
+      if (!postView || postView.hidden) {
+        const blogList = document.getElementById('blog-list');
+        posts.forEach((post) => {
+          const a = document.createElement('a');
+          a.className = 'blog-card';
+          a.href = post.externalUrl ? post.externalUrl : `./?post=${encodeURIComponent(post.slug)}`;
+          if (post.externalUrl) {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+          const tagsHtml = (post.tags || []).map((t) => `<span class="tag">${t}</span>`).join('');
+          a.innerHTML = `
+            <div class="blog-meta">
+              <span>${post.date}</span>
+              <span>${post.readingTime || ''}</span>
+            </div>
+            <h3>${post.title}</h3>
+            <p class="blog-summary">${post.summary}</p>
+            <div class="tag-list">${tagsHtml}</div>
+          `;
+          blogList.appendChild(a);
+        });
+      }
+
+      const toggleBtn = document.getElementById('theme-toggle');
+      const updateToggleLabel = () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        toggleBtn.textContent = current === 'dark' ? '☀ Light' : '☾ Dark';
+      };
+      updateToggleLabel();
+
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleLabel();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -20,12 +20,12 @@
 <body>
   <header class="site-header">
     <div class="container nav-bar">
-      <a href="#" class="brand" id="nav-brand">@anusinghg</a>
+      <a href="./" class="brand" id="nav-brand">@anusinghg</a>
       <nav class="nav-links">
-        <a href="#focus">Focus</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Stack</a>
-        <a href="#experience" id="nav-experience">Experience</a>
+        <a href="./blog/">Blog</a>
+        <a href="./now/">/now</a>
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
           Theme
         </button>
@@ -51,6 +51,7 @@
     <section class="section" id="focus">
       <div class="section-header">
         <h2 class="section-title">01 / Current Focus</h2>
+        <a href="./now/" class="section-link">What I'm doing /now →</a>
       </div>
       <div class="focus-grid" id="focus-grid"></div>
     </section>
@@ -63,10 +64,19 @@
       <div class="projects-list" id="projects-list"></div>
     </section>
 
+    <!-- Recent Writing / Blog Preview -->
+    <section class="section" id="writing">
+      <div class="section-header">
+        <h2 class="section-title">03 / Recent Writing</h2>
+        <a href="./blog/" class="section-link">All posts (/blog) →</a>
+      </div>
+      <div class="blog-list" id="blog-preview-list"></div>
+    </section>
+
     <!-- Tech Stack -->
     <section class="section" id="skills">
       <div class="section-header">
-        <h2 class="section-title">03 / Tech Stack &amp; Tools</h2>
+        <h2 class="section-title">04 / Tech Stack &amp; Tools</h2>
       </div>
       <div class="skills-grid" id="skills-grid"></div>
     </section>
@@ -74,7 +84,7 @@
     <!-- Experience -->
     <section class="section" id="experience">
       <div class="section-header">
-        <h2 class="section-title">04 / Experience &amp; Highlights</h2>
+        <h2 class="section-title">05 / Experience &amp; Highlights</h2>
       </div>
       <div class="timeline" id="timeline"></div>
     </section>
@@ -90,7 +100,6 @@
     (function () {
       const cfg = window.PORTFOLIO_CONFIG || {};
 
-      // Document title & brand
       if (cfg.name) {
         document.title = `${cfg.name} — ${cfg.role || 'Portfolio'}`;
         document.getElementById('hero-name').textContent = cfg.name;
@@ -109,14 +118,12 @@
         locEl.hidden = true;
       }
 
-      // Status pill
       const statusPill = document.getElementById('hero-status');
       if (cfg.availability) {
         document.getElementById('hero-status-text').textContent = cfg.availability;
         statusPill.hidden = false;
       }
 
-      // Bio paragraphs
       const bioContainer = document.getElementById('hero-bio');
       (cfg.bio || []).forEach((paragraph) => {
         const p = document.createElement('p');
@@ -124,7 +131,6 @@
         bioContainer.appendChild(p);
       });
 
-      // Social pills
       const socialRow = document.getElementById('social-row');
       (cfg.socials || []).forEach((item) => {
         const a = document.createElement('a');
@@ -138,7 +144,6 @@
         socialRow.appendChild(a);
       });
 
-      // Focus areas
       const focusGrid = document.getElementById('focus-grid');
       (cfg.focusAreas || []).forEach((area) => {
         const card = document.createElement('div');
@@ -147,7 +152,6 @@
         focusGrid.appendChild(card);
       });
 
-      // Projects
       const projectsList = document.getElementById('projects-list');
       (cfg.projects || []).forEach((proj) => {
         const card = document.createElement('article');
@@ -178,7 +182,34 @@
         projectsList.appendChild(card);
       });
 
-      // Skills
+      // Blog preview on homepage
+      const writingSection = document.getElementById('writing');
+      const blogPreviewList = document.getElementById('blog-preview-list');
+      if (!cfg.posts || cfg.posts.length === 0) {
+        writingSection.hidden = true;
+      } else {
+        cfg.posts.slice(0, 3).forEach((post) => {
+          const a = document.createElement('a');
+          a.className = 'blog-card';
+          a.href = post.externalUrl ? post.externalUrl : `./blog/?post=${encodeURIComponent(post.slug)}`;
+          if (post.externalUrl) {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+          const tagsHtml = (post.tags || []).map((t) => `<span class="tag">${t}</span>`).join('');
+          a.innerHTML = `
+            <div class="blog-meta">
+              <span>${post.date}</span>
+              <span>${post.readingTime || ''}</span>
+            </div>
+            <h3>${post.title}</h3>
+            <p class="blog-summary">${post.summary}</p>
+            <div class="tag-list">${tagsHtml}</div>
+          `;
+          blogPreviewList.appendChild(a);
+        });
+      }
+
       const skillsGrid = document.getElementById('skills-grid');
       (cfg.skills || []).forEach((group) => {
         const div = document.createElement('div');
@@ -190,13 +221,10 @@
         skillsGrid.appendChild(div);
       });
 
-      // Experience
       const expSection = document.getElementById('experience');
-      const navExp = document.getElementById('nav-experience');
       const timeline = document.getElementById('timeline');
       if (!cfg.experience || cfg.experience.length === 0) {
         expSection.hidden = true;
-        navExp.hidden = true;
       } else {
         cfg.experience.forEach((exp) => {
           const row = document.createElement('div');
@@ -213,10 +241,8 @@
         });
       }
 
-      // Footer
       document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${cfg.name || ''}`;
 
-      // Theme toggle
       const toggleBtn = document.getElementById('theme-toggle');
       const updateToggleLabel = () => {
         const current = document.documentElement.getAttribute('data-theme');
