@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anubhav Singh — Software Engineer</title>
+  <meta name="description" content="Personal portfolio and landing page of Anubhav Singh — Software Engineer building AI Agents, Developer Tooling, and Cloud Systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a href="#" class="brand" id="nav-brand">@anusinghg</a>
+      <nav class="nav-links">
+        <a href="#focus">Focus</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Stack</a>
+        <a href="#experience" id="nav-experience">Experience</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">
+          Theme
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="status-pill" id="hero-status" hidden>
+        <span class="status-dot"></span>
+        <span id="hero-status-text"></span>
+      </div>
+      <h1 id="hero-name">Anubhav Singh</h1>
+      <p class="hero-role" id="hero-role"></p>
+      <p class="hero-location" id="hero-location"></p>
+      <div class="hero-bio" id="hero-bio"></div>
+      <div class="social-row" id="social-row"></div>
+    </section>
+
+    <!-- Current Focus -->
+    <section class="section" id="focus">
+      <div class="section-header">
+        <h2 class="section-title">01 / Current Focus</h2>
+      </div>
+      <div class="focus-grid" id="focus-grid"></div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section class="section" id="projects">
+      <div class="section-header">
+        <h2 class="section-title">02 / Selected Projects</h2>
+      </div>
+      <div class="projects-list" id="projects-list"></div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section" id="skills">
+      <div class="section-header">
+        <h2 class="section-title">03 / Tech Stack &amp; Tools</h2>
+      </div>
+      <div class="skills-grid" id="skills-grid"></div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section" id="experience">
+      <div class="section-header">
+        <h2 class="section-title">04 / Experience &amp; Highlights</h2>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+  </main>
+
+  <footer class="container site-footer">
+    <span id="footer-copy"></span>
+    <span>Built with clean HTML/CSS · Hosted on GitHub Pages</span>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script>
+    (function () {
+      const cfg = window.PORTFOLIO_CONFIG || {};
+
+      // Document title & brand
+      if (cfg.name) {
+        document.title = `${cfg.name} — ${cfg.role || 'Portfolio'}`;
+        document.getElementById('hero-name').textContent = cfg.name;
+      }
+      if (cfg.handle) {
+        document.getElementById('nav-brand').textContent = cfg.handle;
+      }
+      if (cfg.role) {
+        document.getElementById('hero-role').textContent = cfg.role;
+      }
+
+      const locEl = document.getElementById('hero-location');
+      if (cfg.location) {
+        locEl.textContent = cfg.location;
+      } else {
+        locEl.hidden = true;
+      }
+
+      // Status pill
+      const statusPill = document.getElementById('hero-status');
+      if (cfg.availability) {
+        document.getElementById('hero-status-text').textContent = cfg.availability;
+        statusPill.hidden = false;
+      }
+
+      // Bio paragraphs
+      const bioContainer = document.getElementById('hero-bio');
+      (cfg.bio || []).forEach((paragraph) => {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        bioContainer.appendChild(p);
+      });
+
+      // Social pills
+      const socialRow = document.getElementById('social-row');
+      (cfg.socials || []).forEach((item) => {
+        const a = document.createElement('a');
+        a.className = 'social-pill';
+        a.href = item.url;
+        if (item.url.startsWith('http')) {
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+        }
+        a.innerHTML = `<span>${item.label}</span><span class="arrow">↗</span>`;
+        socialRow.appendChild(a);
+      });
+
+      // Focus areas
+      const focusGrid = document.getElementById('focus-grid');
+      (cfg.focusAreas || []).forEach((area) => {
+        const card = document.createElement('div');
+        card.className = 'focus-card';
+        card.innerHTML = `<h3>${area.title}</h3><p>${area.description}</p>`;
+        focusGrid.appendChild(card);
+      });
+
+      // Projects
+      const projectsList = document.getElementById('projects-list');
+      (cfg.projects || []).forEach((proj) => {
+        const card = document.createElement('article');
+        card.className = `project-card${proj.featured ? ' featured' : ''}`;
+
+        const linksHtml = (proj.links || [])
+          .map(
+            (l) =>
+              `<a class="project-link" href="${l.url}" target="_blank" rel="noopener noreferrer">${l.label} ↗</a>`
+          )
+          .join('');
+
+        const tagsHtml = (proj.tags || [])
+          .map((t) => `<span class="tag">${t}</span>`)
+          .join('');
+
+        card.innerHTML = `
+          <div class="project-top">
+            <div class="project-title-group">
+              <h3>${proj.title}</h3>
+              ${proj.subtitle ? `<div class="project-subtitle">${proj.subtitle}</div>` : ''}
+            </div>
+            <div class="project-links">${linksHtml}</div>
+          </div>
+          <p class="project-desc">${proj.description}</p>
+          <div class="tag-list">${tagsHtml}</div>
+        `;
+        projectsList.appendChild(card);
+      });
+
+      // Skills
+      const skillsGrid = document.getElementById('skills-grid');
+      (cfg.skills || []).forEach((group) => {
+        const div = document.createElement('div');
+        div.className = 'skill-group';
+        const tags = (group.items || [])
+          .map((item) => `<span class="tag">${item}</span>`)
+          .join('');
+        div.innerHTML = `<h3>${group.category}</h3><div class="tag-list">${tags}</div>`;
+        skillsGrid.appendChild(div);
+      });
+
+      // Experience
+      const expSection = document.getElementById('experience');
+      const navExp = document.getElementById('nav-experience');
+      const timeline = document.getElementById('timeline');
+      if (!cfg.experience || cfg.experience.length === 0) {
+        expSection.hidden = true;
+        navExp.hidden = true;
+      } else {
+        cfg.experience.forEach((exp) => {
+          const row = document.createElement('div');
+          row.className = 'timeline-item';
+          row.innerHTML = `
+            <div class="timeline-period">${exp.period}</div>
+            <div class="timeline-content">
+              <h3>${exp.role}</h3>
+              <div class="timeline-org">${exp.org}</div>
+              <p class="timeline-summary">${exp.summary}</p>
+            </div>
+          `;
+          timeline.appendChild(row);
+        });
+      }
+
+      // Footer
+      document.getElementById('footer-copy').textContent = `© ${new Date().getFullYear()} ${cfg.name || ''}`;
+
+      // Theme toggle
+      const toggleBtn = document.getElementById('theme-toggle');
+      const updateToggleLabel = () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        toggleBtn.textContent = current === 'dark' ? '☀ Light' : '☾ Dark';
+      };
+      updateToggleLabel();
+
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleLabel();
+      });
+    })();
+  </script>
+</body>
+</html>

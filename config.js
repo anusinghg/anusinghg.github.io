@@ -1,0 +1,162 @@
+/**
+ * ============================================================================
+ * PERSONAL LANDING PAGE CONFIGURATION (config.js)
+ * ============================================================================
+ * Edit the values in this file to customize your GitHub Pages website.
+ * No build step is required—just save and refresh (or push to GitHub).
+ */
+
+window.PORTFOLIO_CONFIG = {
+  // --------------------------------------------------------------------------
+  // 1. BASIC PROFILE & BIO
+  // --------------------------------------------------------------------------
+  name: "Anubhav Singh",
+  handle: "@anusinghg",
+  role: "Software Engineer · AI Agents & Developer Tooling",
+  location: "Bengaluru, India", // TODO: Update or set to "" to hide
+  availability: "Open to interesting collaborations & engineering roles", // Set to "" to hide status pill
+  bio: [
+    "I design and build reliable software systems, autonomous AI agents, and developer tools that eliminate friction in engineering workflows.",
+    "Recently, I've been focused on grounded multi-agent architectures using Google ADK and Gemini—combining static AST analysis with LLM reasoning and deterministic guardrails."
+  ],
+
+  // --------------------------------------------------------------------------
+  // 2. SOCIAL & CONTACT LINKS
+  // --------------------------------------------------------------------------
+  socials: [
+    {
+      label: "GitHub",
+      url: "https://github.com/anusinghg",
+      username: "github.com/anusinghg"
+    },
+    {
+      label: "LinkedIn",
+      url: "https://linkedin.com/in/your-handle", // TODO: Replace with your LinkedIn URL
+      username: "linkedin.com/in/your-handle"
+    },
+    {
+      label: "X / Twitter",
+      url: "https://x.com/your_handle", // TODO: Replace with your X handle
+      username: "@your_handle"
+    },
+    {
+      label: "Email",
+      url: "mailto:you@example.com", // TODO: Replace with your email
+      username: "you@example.com"
+    },
+    {
+      label: "Resume",
+      url: "./resume.pdf", // TODO: Add resume.pdf to this folder or link to Google Drive/Notion
+      username: "PDF"
+    }
+  ],
+
+  // --------------------------------------------------------------------------
+  // 3. CURRENT FOCUS AREAS
+  // --------------------------------------------------------------------------
+  focusAreas: [
+    {
+      title: "Autonomous AI Agents",
+      description: "Building verifiable agent workflows with Google ADK, Gemini, and local Ollama failovers backed by strict output guardrails."
+    },
+    {
+      title: "Developer Tooling & Static Analysis",
+      description: "Combining AST inspection, git diff analysis, and automated evaluation suites to catch bugs and doc-rot before production."
+    },
+    {
+      title: "Cloud & Distributed Systems",
+      description: "Designing resilient APIs, background workers, and cloud-native services with clean observability and low operational overhead."
+    }
+  ],
+
+  // --------------------------------------------------------------------------
+  // 4. FEATURED PROJECTS
+  // --------------------------------------------------------------------------
+  projects: [
+    {
+      title: "Doc Truth Verifier",
+      subtitle: "Autonomous Documentation Auditor · GDG Cloud Bengaluru",
+      description:
+        "An AI software auditor built with Google ADK and Gemini 3.8 Flash that cross-examines README claims against actual Python AST control flow and uncommitted Git diffs, complete with 100% citation grounding verification and ready-to-apply diff patches.",
+      tags: ["Python", "Google ADK", "Gemini", "Ollama", "AST", "Evals"],
+      links: [
+        { label: "Source Code", url: "https://github.com/gdgcblr/open-source-agents/tree/main/agents/doc-truth-verifier" }
+      ],
+      featured: true
+    },
+    {
+      title: "Project Alpha (Stub)",
+      subtitle: "Distributed Event Pipeline",
+      description:
+        "TODO: Replace with your project description. High-throughput event ingestion service with schema validation, dead-letter replay, and Prometheus metrics export.",
+      tags: ["Go", "Kafka", "PostgreSQL", "Docker"],
+      links: [
+        { label: "GitHub", url: "https://github.com/anusinghg/project-alpha" },
+        { label: "Live Demo", url: "https://example.com" }
+      ],
+      featured: false
+    },
+    {
+      title: "DevFlow CLI (Stub)",
+      subtitle: "Developer Productivity Utility",
+      description:
+        "TODO: Replace with your project description. Zero-config command-line tool that automates repository onboarding, environment checks, and pre-PR verification.",
+      tags: ["TypeScript", "Node.js", "CLI", "GitHub Actions"],
+      links: [
+        { label: "GitHub", url: "https://github.com/anusinghg/devflow-cli" }
+      ],
+      featured: false
+    },
+    {
+      title: "CloudPulse API (Stub)",
+      subtitle: "Lightweight Telemetry & Health Monitor",
+      description:
+        "TODO: Replace with your project description. Multi-region endpoint monitor with webhook signing, configurable backoff policies, and real-time latency percentiles.",
+      tags: ["Python", "FastAPI", "Redis", "GCP"],
+      links: [
+        { label: "GitHub", url: "https://github.com/anusinghg/cloudpulse-api" }
+      ],
+      featured: false
+    }
+  ],
+
+  // --------------------------------------------------------------------------
+  // 5. TECH STACK & SKILLS
+  // --------------------------------------------------------------------------
+  skills: [
+    {
+      category: "Languages",
+      items: ["Python", "TypeScript", "JavaScript", "Go", "SQL", "Bash"]
+    },
+    {
+      category: "AI & Agent Engineering",
+      items: ["Google ADK", "Gemini API", "Ollama", "AST Code Indexing", "Guardrails & Evals", "Prompt Engineering"]
+    },
+    {
+      category: "Backend & Web",
+      items: ["FastAPI", "Node.js", "React", "Next.js", "PostgreSQL", "Redis", "REST / gRPC"]
+    },
+    {
+      category: "Cloud & Infrastructure",
+      items: ["Google Cloud (GCP)", "Docker", "GitHub Actions", "Linux", "Git"]
+    }
+  ],
+
+  // --------------------------------------------------------------------------
+  // 6. EXPERIENCE / HIGHLIGHTS (Optional — leave array empty [] to hide section)
+  // --------------------------------------------------------------------------
+  experience: [
+    {
+      role: "Senior / Software Engineer (Stub)",
+      org: "Company Name",
+      period: "2024 — Present",
+      summary: "TODO: Add 1–2 sentences about your impact, systems owned, or key achievements."
+    },
+    {
+      role: "Open Source Builder — Road to DevFest 2026",
+      org: "GDG Cloud Bengaluru",
+      period: "2026",
+      summary: "Built Doc Truth Verifier using Google ADK, combining AST static analysis with LLM reasoning and deterministic guardrails."
+    }
+  ]
+};
